@@ -22,7 +22,7 @@ func main() {
 
 func NewServer() *http.ServeMux {
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /", helloHandler)
+	mux.HandleFunc("GET /{$}", helloHandler)
 	mux.HandleFunc("GET /health", healthHandler)
 	return mux
 }
