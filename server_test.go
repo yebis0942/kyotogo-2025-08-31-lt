@@ -5,13 +5,17 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/yebis0942/kyotogo-2025-08-31-lt/kimik2"
 )
 
 func TestServer(t *testing.T) {
 	handlers := map[string]func() http.Handler{
-		"NewServer":                 NewServer,
-		"NewServer_gemini_25_flash": NewServer_gemini_25_flash,
-		"NewServer_gemini_25_pro":   NewServer_gemini_25_pro,
+		"NewServer":                           NewServer,
+		"NewServer_gemini_25_flash":           NewServer_gemini_25_flash,
+		"NewServer_gemini_25_pro":             NewServer_gemini_25_pro,
+		"NewServer_qwen25_Coder_32B_instruct": NewServer_qwen25_Coder_32B_instruct,
+		"Kimi-K2":                             kimik2.NewHandler,
 	}
 
 	tests := map[string]struct {
