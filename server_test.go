@@ -15,11 +15,11 @@ import (
 
 func TestServer(t *testing.T) {
 	handlers := map[string]func() http.Handler{
-		"Human":                     human.NewHander,
-		"Gemini 2.5 Flash":          gemini25flash.NewHandler,
-		"Gemini 2.5 Pro":            gemini25pro.NewHandler,
-		"Qwen25 Coder 32B Instruct": qwen25coder32binstruct.NewHandler,
-		"Kimi-K2":                   kimik2.NewHandler,
+		"Human":                      human.NewHander,
+		"Gemini 2.5 Flash":           gemini25flash.NewHandler,
+		"Gemini 2.5 Pro":             gemini25pro.NewHandler,
+		"Qwen2.5 Coder 32B Instruct": qwen25coder32binstruct.NewHandler,
+		"Kimi-K2":                    kimik2.NewHandler,
 	}
 
 	tests := map[string]struct {
