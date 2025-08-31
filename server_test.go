@@ -8,8 +8,11 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/yebis0942/kyotogo-2025-08-31-lt/claude4opus"
+	"github.com/yebis0942/kyotogo-2025-08-31-lt/claude4sonnet"
 	"github.com/yebis0942/kyotogo-2025-08-31-lt/gemini25flash"
 	"github.com/yebis0942/kyotogo-2025-08-31-lt/gemini25pro"
+	"github.com/yebis0942/kyotogo-2025-08-31-lt/gpt5"
 	"github.com/yebis0942/kyotogo-2025-08-31-lt/human"
 	"github.com/yebis0942/kyotogo-2025-08-31-lt/kimik2"
 	"github.com/yebis0942/kyotogo-2025-08-31-lt/qwen25coder32binstruct"
@@ -17,9 +20,20 @@ import (
 
 func TestServer(t *testing.T) {
 	handlers := map[string]func() http.Handler{
-		"Human":                      human.NewHander,
-		"Gemini 2.5 Flash":           gemini25flash.NewHandler,
-		"Gemini 2.5 Pro":             gemini25pro.NewHandler,
+		"Human": human.NewHander,
+
+		// Google models
+		"Gemini 2.5 Flash": gemini25flash.NewHandler,
+		"Gemini 2.5 Pro":   gemini25pro.NewHandler,
+
+		// Anthropic models
+		"Claude 4 Sonnet": claude4sonnet.NewHandler,
+		"Claude 4 Opus":   claude4opus.NewHandler,
+
+		// OpenAI models
+		"GPT-5": gpt5.NewHandler,
+
+		// Open-Weight models
 		"Qwen2.5 Coder 32B Instruct": qwen25coder32binstruct.NewHandler,
 		"Kimi-K2":                    kimik2.NewHandler,
 	}
