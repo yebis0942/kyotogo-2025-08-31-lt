@@ -20,7 +20,7 @@ func main() {
 	log.Printf("Server listening on :%s", port)
 }
 
-func NewServer() *http.ServeMux {
+func NewServer() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /{$}", helloHandler)
 	mux.HandleFunc("GET /health", healthHandler)
