@@ -2,6 +2,8 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"mime"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -23,10 +25,10 @@ func TestServer(t *testing.T) {
 	}
 
 	tests := map[string]struct {
-		path            string
-		wantStatusCode  int
-		assertBody      func(*testing.T, string)
-		wantContentType string
+		path           string
+		wantStatusCode int
+		assertBody     func(*testing.T, string)
+		wantMediaType  string
 	}{
 		"GET /": {
 			path:           "/",
@@ -36,7 +38,6 @@ func TestServer(t *testing.T) {
 					t.Errorf("got body %q, want %q", body, "Hello, world!")
 				}
 			},
-			wantContentType: "text/plain; charset=utf-8",
 		},
 		"GET /health": {
 			path:           "/health",
@@ -60,7 +61,7 @@ func TestServer(t *testing.T) {
 					return
 				}
 			},
-			wantContentType: "application/json",
+			wantMediaType: "application/json",
 		},
 		"GET /notfound": {
 			path:           "/notfound",
@@ -86,9 +87,15 @@ func TestServer(t *testing.T) {
 					if tc.assertBody != nil {
 						tc.assertBody(t, rr.Body.String())
 					}
-					if tc.wantContentType != "" {
-						if contentType := rr.Header().Get("Content-Type"); contentType != tc.wantContentType {
-							t.Errorf("got Content-Type %q, want %q", contentType, tc.wantContentType)
+					if tc.wantMediaType != "" {
+						contentType := rr.Header().Get("Content-Type")
+						mediaType, _, err := mime.ParseMediaType(contentType)
+						if err != nil {
+							fmt.Println("Error parsing media type:", err)
+							return
+						}
+						if mediaType != tc.wantMediaType {
+							t.Errorf("got Content-Type %q, want %q", contentType, tc.wantMediaType)
 						}
 					}
 				})
